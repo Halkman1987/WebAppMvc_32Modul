@@ -32,6 +32,7 @@ namespace WebAppMvc
             string connection = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
             services.AddControllersWithViews();
+            services.AddControllers();
             services.AddSingleton<IBlogRepository, BlogRepository>();
             
 
@@ -50,6 +51,7 @@ namespace WebAppMvc
             }
             app.UseRouting();
             app.UseMiddleware<LoggingMiddleware>();
+           
             app.UseStaticFiles();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
@@ -67,12 +69,7 @@ namespace WebAppMvc
             app.Map("/about", About);
             app.Map("/config", Config);
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/config", async zapis => { await zapis.Response.WriteAsync($" App Name {env.ApplicationName}. App running conf {env.EnvironmentName}"); });
-            //});
-
-
+           
 
             app.Run(async (context) =>
             {
