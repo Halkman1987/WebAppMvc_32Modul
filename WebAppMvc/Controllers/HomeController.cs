@@ -18,7 +18,7 @@ namespace WebAppMvc.Controllers
 
         public async Task <IActionResult> Index()
         {
-            var newUser = new User()
+           /* var newUser = new User()
             {
                 Id = Guid.NewGuid(),
                 FirstName = "Andrey",
@@ -26,7 +26,7 @@ namespace WebAppMvc.Controllers
                 JoinDate = DateTime.Now
             };
             await _blogRepository.AddUser(newUser);
-            Console.WriteLine($" User with id {newUser.Id} , named {newUser.FirstName} was successfully added on {newUser.JoinDate}");
+            Console.WriteLine($" User with id {newUser.Id} , named {newUser.FirstName} was successfully added on {newUser.JoinDate}");*/
             return View();
         }
         public async Task <IActionResult> Autors()
@@ -35,7 +35,7 @@ namespace WebAppMvc.Controllers
             Console.WriteLine("See all blog autors");
             foreach (var autor in autors)
                 Console.WriteLine($"autor name {autor.FirstName }, joined {autor.JoinDate}");
-            return View();
+            return View(autors);
         }
 
         public IActionResult Privacy()

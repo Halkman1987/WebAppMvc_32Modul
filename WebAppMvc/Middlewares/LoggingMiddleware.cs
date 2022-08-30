@@ -18,8 +18,7 @@ namespace WebAppMvc.Middlewares
             await LogFile(context);
             await _next(context);
 
-            /* Console.WriteLine($"[{DateTime.Now}]: New reqest to http://{context.Request.Host.Value + context.Request.Path}");
-             await _next.Invoke(context);*/
+           
         }
         private void LogConsole(HttpContext context)
         {
@@ -34,17 +33,7 @@ namespace WebAppMvc.Middlewares
             await File.AppendAllTextAsync(logFilePath, logMess);
 
 
-            // string dest_path = xml_destination_path_tb.Text + "/" + corps + " корпус/" + floor + " этаж/" + cabinet + " кабинет";
-
-            /* if (Directory.Exists(logFilePath) != true) Directory.CreateDirectory(logFilePath);
-             try
-             {
-                 File.Copy(filename, dest_path + "/" + Path.GetFileName(filename));
-             }
-             catch (IOException copyError)
-             {
-                 MessageBox.Show(copyError.Message);
-             }*/
+            
         }
     }
 }

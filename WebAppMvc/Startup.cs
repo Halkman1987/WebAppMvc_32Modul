@@ -29,52 +29,56 @@ namespace WebAppMvc
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+            services.AddTransient<IBlogRepository, BlogRepository>();
             string connection = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
-            services.AddControllersWithViews();
-            services.AddControllers();
-            services.AddSingleton<IBlogRepository, BlogRepository>();
+            
+            
+            
             
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            Console.WriteLine($"Launching project from: {env.ContentRootPath}");
+          
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseHsts();
             }
             if (env.IsStaging())
             {
                 app.UseDeveloperExceptionPage();
             }
+           
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseMiddleware<LoggingMiddleware>();
-           
-            app.UseStaticFiles();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=index}/{id}");
+                    pattern: "{controller=Home}/{action=index}/{id?}");
             });
+            
+            /* app.UseEndpoints(endpoints =>
+             {
+                 endpoints.MapGet("/", async context => { await context.Response.WriteAsync($"Welcome to the {env.ApplicationName}!"); });
+             });*/
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync($"Welcome to the {env.ApplicationName}!"); });
-            });
+            /* app.Map("/about", About);
+             app.Map("/config", Config);
+              */
 
-            app.Map("/about", About);
-            app.Map("/config", Config);
 
-           
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync($"Page not found");
-            });
+             app.Run(async (context) =>
+             {
+                 await context.Response.WriteAsync($"Page not found");
+             });
         }
 
     }
